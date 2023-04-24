@@ -83,9 +83,8 @@ Compatible with Amazon Linux 2 (ARM64)
     - cd /root/chromium/src
     - sed -i "s#dirs.lib_dir, 'libxml2.a'#os.path.join(dirs.install_dir, 'lib64'), 'libxml2.a'#g" tools/clang/scripts/build.py # UPDATED
     - Delete "      '-DLLVM_ENABLE_LLD=ON'," from same script
-    - Add "-lrt" to ldflags
     - Change ./tools/clang/scripts/build.py and remove   "if args.with_ml_inliner_model" block:
-    - ./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++ --bootstrap
+    - ./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++
 
 - Create build dir
     - mkdir -p /root/chromium/src/out/Headless
