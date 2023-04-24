@@ -134,3 +134,67 @@ clang version 11.1.0 (Amazon Linux 2 11.1.0-1.amzn2.0.2)
 
 
 ## Attempting with ami-09ca4fd95e59ee59a (Amazon Linux 2023)
+
+sudo -i
+yum install python git make clang openssl-devel.aarch64 libxml2-devel.aarch64 lld libdrm-devel.aarch64 libxkbcommon-devel.aarch64 nss-devel.aarch64 perl gperf.aarch64 "@Development Tools" 
+export DEPOT_TOOLS_BOOTSTRAP_PYTHON3=0
+cd /root
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+export PATH="$PATH:${HOME}/depot_tools"
+git clone --depth 1 --no-tags -n https://github.com/chromium/chromium.git src
+cd src
+git fetch --prune --depth=1 --no-tags origin e74af94da1b9a7bbe6f0aea365b8c9b2c5e1f429 # 114.0.5731.1
+git checkout --quiet e74af94da1b9a7bbe6f0aea365b8c9b2c5e1f429 # 114.0.5731.1
+
+cd /root/chromium/src
+COMMIT_DATE=$(git log -n 1 --pretty=format:%ci)
+cd /root/depot_tools
+git checkout $(git rev-list -n 1 --before="$COMMIT_DATE" main)
+export DEPOT_TOOLS_UPDATE=0
+
+touch /root/chromium/.gclient
+Copy contents of included .gclient to /root/chromium/.gclient
+cd /root/chromium/src
+
+- Add " 'condition': 'host_os == "win"', to DEPS file in reclient section" to fix missing binary for aarch64
+gclient sync -D --no-history --shallow --force --reset
+
+cd /root/chromium/src
+sed -i 's@update_unix "darwin-x64" "mac"@# update_unix "darwin-x64" "mac"@g' third_party/node/update_node_binaries
+sed -i 's@update_unix "darwin-arm64" "mac"@# update_unix "darwin-arm64" "mac"@g' third_party/node/update_node_binaries
+sed -i 's@update_unix "linux-x64" "linux"@update_unix "linux-arm64" "linux"@g' third_party/node/update_node_binaries
+./third_party/node/update_node_binaries
+rm -rf third_party/node/linux/node-linux-x64
+ln -s /root/chromium/src/third_party/node/linux/node-linux-arm64 /root/chromium/src/third_party/node/linux/node-linux-x64
+
+cd /root
+wget https://cmake.org/files/v3.23/cmake-3.23.0.tar.gz
+tar -xvzf cmake-3.23.0.tar.gz
+cd cmake-3.23.0
+./bootstrap
+make -j$(nproc)
+make install
+export PATH="$PATH:/usr/local/bin"
+
+cd /root
+git clone https://github.com/ninja-build/ninja.git -b v1.8.2
+cd ninja
+./configure.py --bootstrap
+rm -f /root/depot_tools/ninja
+ln -s /root/ninja/ninja /root/depot_tools/ninja
+
+sed -i "s#dirs.lib_dir, 'libxml2.a'#os.path.join(dirs.install_dir, 'lib64'), 'libxml2.a'#g" tools/clang/scripts/build.py
+sed -i "s/ldflags = \[\]/ldflags = ['-lrt -lpthread']/" tools/clang/scripts/build.py
+./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++ --with-ml-inliner-model=''
+
+
+mkdir -p /root/chromium/src/out/Headless
+mount --types tmpfs --options size=48G,nr_inodes=128k,mode=1777 tmpfs /root/chromium/src/out/Headless
+touch /root/chromium/src/out/Headless/args.gn
+nano out/Headless/args.gn # Add from flags
+- Add `use_qt = false` to args.gn as well
+sed -i 's/configs += \[ "\/\/build\/config\/linux\/dri" \]/    configs += []/g' content/gpu/BUILD.gn
+sed -i 's/configs += \[ "\/\/build\/config\/linux\/dri" \]/    configs += []/g' media/gpu/sandbox/BUILD.gn
+mkdir gperf
+autoninja -C out/Headless headless_shell
+
