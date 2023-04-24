@@ -79,19 +79,12 @@ Compatible with Amazon Linux 2 (ARM64)
     - ./configure.py --bootstrap
     - rm -f /root/depot_tools/ninja
     - ln -s /root/ninja/ninja /root/depot_tools/ninja
-- Update binutils
-    - cd /root
-    - sudo yum install gmp-devel mpfr-devel texinfo -y
-    - git clone git://sourceware.org/git/binutils-gdb.git
-    - git checkout binutils-2_40 # Selected arbitrarily, needs to be bigger than 2.33
-    - cd binutils-gdb
-    - CC=gcc ./configure
-    - make
 - Install LLVM
     - cd /root/chromium/src
     - sed -i "s#dirs.lib_dir, 'libxml2.a'#os.path.join(dirs.install_dir, 'lib64'), 'libxml2.a'#g" tools/clang/scripts/build.py # UPDATED
     - Delete "      '-DLLVM_ENABLE_LLD=ON'," from same script
     - Change ./tools/clang/scripts/build.py and remove   "if args.with_ml_inliner_model" block:
+    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/lib64
     - ./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++
 
 - Create build dir
