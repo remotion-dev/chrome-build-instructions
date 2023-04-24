@@ -123,3 +123,8 @@ Compatible with Amazon Linux 2 (ARM64)
     - Copy included fonts to /root/build/chromium/fonts
     - zip -r chromium.zip .
 - Terminate the build instance
+
+## Notes
+- Clang on AL2 has version:
+clang version 11.1.0 (Amazon Linux 2 11.1.0-1.amzn2.0.2)
+- Clang++ same version
