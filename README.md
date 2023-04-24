@@ -79,6 +79,14 @@ Compatible with Amazon Linux 2 (ARM64)
     - ./configure.py --bootstrap
     - rm -f /root/depot_tools/ninja
     - ln -s /root/ninja/ninja /root/depot_tools/ninja
+- Update binutils
+    - cd /root
+    - sudo yum install gmp-devel mpfr-devel texinfo -y
+    - git clone git://sourceware.org/git/binutils-gdb.git
+    - git checkout binutils-2_40 # Selected arbitrarily, needs to be bigger than 2.33
+    - cd binutils-gdb
+    - CC=gcc ./configure
+    - make
 - Install LLVM
     - cd /root/chromium/src
     - sed -i "s#dirs.lib_dir, 'libxml2.a'#os.path.join(dirs.install_dir, 'lib64'), 'libxml2.a'#g" tools/clang/scripts/build.py # UPDATED
@@ -128,3 +136,4 @@ Compatible with Amazon Linux 2 (ARM64)
 - Clang on AL2 has version:
 clang version 11.1.0 (Amazon Linux 2 11.1.0-1.amzn2.0.2)
 - Clang++ same version
+- AL2 binutils: binutils.aarch64                                                                                                                                                                      2.29.1-31.amzn2                                                                                                                                                                      installed
