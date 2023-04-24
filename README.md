@@ -28,9 +28,10 @@ Compatible with Amazon Linux 2 (ARM64)
     - git clone --depth 1 --no-tags -n https://github.com/chromium/chromium.git src
     - Copy commit SHA that you want to build from Chromium’s git repo. 
         Example: use 2e157e65025be85201e77efdbe805d43000267e3 for Chromium 104.0.5112.64
+        Example 2: use e74af94da1b9a7bbe6f0aea365b8c9b2c5e1f429 for Chromium 114.0.5731.1
     - cd src
-    - git fetch --prune --depth=1 --no-tags origin 2e157e65025be85201e77efdbe805d43000267e3
-    - git checkout --quiet 2e157e65025be85201e77efdbe805d43000267e3
+    - git fetch --prune --depth=1 --no-tags origin e74af94da1b9a7bbe6f0aea365b8c9b2c5e1f429
+    - git checkout --quiet e74af94da1b9a7bbe6f0aea365b8c9b2c5e1f429
 - Get matching depot_tools version
     - cd /root/chromium/src
     - COMMIT_DATE=$(git log -n 1 --pretty=format:%ci)
