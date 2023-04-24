@@ -136,4 +136,5 @@ Compatible with Amazon Linux 2 (ARM64)
 - Clang on AL2 has version:
 clang version 11.1.0 (Amazon Linux 2 11.1.0-1.amzn2.0.2)
 - Clang++ same version
-- AL2 binutils: binutils.aarch64                                                                                                                                                                      2.29.1-31.amzn2                                                                                                                                                                      installed
+- AL2 binutils: binutils.aarch64                                                                                                                                                                      2.29.1-31.amzn2
+- Image has kernel version 5.10, but lambda function has v4. Maybe try another image? https://eu-west-1.console.aws.amazon.com/ec2/home?region=eu-west-1#Images:visibility=public-images;search=:amazon/amzn2-ami-ecs-hvm-2.0;v=3;$case=tags:false%5C,client:false;$regex=tags:false%5C,client:false
