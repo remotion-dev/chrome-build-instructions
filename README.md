@@ -136,7 +136,7 @@ clang version 11.1.0 (Amazon Linux 2 11.1.0-1.amzn2.0.2)
 ## Attempting with ami-09ca4fd95e59ee59a (Amazon Linux 2023)
 
 sudo -i
-yum install python git make clang openssl-devel.aarch64 libxml2-devel.aarch64 lld libdrm-devel.aarch64 libxkbcommon-devel.aarch64 nss-devel.aarch64 perl gperf.aarch64 "@Development Tools" 
+yum install python git make clang openssl-devel.aarch64 libxml2-devel.aarch64 lld libdrm-devel.aarch64 libxkbcommon-devel.aarch64 nss-devel.aarch64 perl gperf.aarch64 "@Development Tools" libXcomposite-devel.aarch64 libXdamage-devel.aarch64 libXrandr-devel.aarch64 libXtst-devel.aarch64 mesa-libgbm-devel.aarch64 alsa-lib-devel.aarch64 icu.aarch64
 export DEPOT_TOOLS_BOOTSTRAP_PYTHON3=0
 cd /root
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
@@ -195,6 +195,24 @@ nano out/Headless/args.gn # Add from flags
 - Add `use_qt = false` to args.gn as well
 sed -i 's/configs += \[ "\/\/build\/config\/linux\/dri" \]/    configs += []/g' content/gpu/BUILD.gn
 sed -i 's/configs += \[ "\/\/build\/config\/linux\/dri" \]/    configs += []/g' media/gpu/sandbox/BUILD.gn
-mkdir gperf
+export LIBRARY_PATH="/usr/lib/gcc/aarch64-amazon-linux/11:$LIBRARY_PATH"
 autoninja -C out/Headless headless_shell
+
+mkdir -p /root/build/chromium/swiftshader
+mkdir -p /root/build/chromium/lib
+mkdir -p /root/build/chromium/fonts
+
+strip -o /root/build/chromium/chromium out/Headless/headless_shell
+
+SRC_DIR="out/Headless"
+DEST_DIR="/root/build/chromium"
+
+for src_file in "${SRC_DIR}"/*.so; do
+  file_name=$(basename "${src_file}")
+  dest_file="${DEST_DIR}/${file_name}"
+  strip -o "${dest_file}" "${src_file}"
+done
+
+zip -r chromium.zip .
+cp -r /home/ec2-user/ .
 
