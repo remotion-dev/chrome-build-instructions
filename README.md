@@ -86,6 +86,7 @@ Compatible with Amazon Linux 2 (ARM64)
     - Change ./tools/clang/scripts/build.py and remove   "if args.with_ml_inliner_model" block:
     - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/lib64
     - sed -i "s/bootstrap_targets = 'X86'/bootstrap_targets = 'ARM;AArch64'/g" ./tools/clang/scripts/build.py
+    - Delete D SYSROOT appends
     - ./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++ --bootstrap
 
 - Create build dir
