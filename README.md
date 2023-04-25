@@ -228,11 +228,22 @@ cp -r /home/ec2-user/ .
 
 ```
 sudo -i
-yum install python git make clang openssl-devel.aarch64 libxml2-devel.aarch64 lld libdrm-devel.aarch64 libxkbcommon-devel.aarch64 nss-devel.aarch64 perl gperf.aarch64 libXcomposite-devel.aarch64 libXdamage-devel.aarch64 libXrandr-devel.aarch64 libXtst-devel.aarch64 mesa-libgbm-devel.aarch64 alsa-lib-devel.aarch64 icu.aarch64 expat-devel.aarch64 libcurl-devel.aarch64 libuuid-devel.aarch64
+yum install python git make clang openssl-devel.aarch64 libxml2-devel.aarch64 lld libdrm-devel.aarch64 libxkbcommon-devel.aarch64 nss-devel.aarch64 perl gperf.aarch64 libXcomposite-devel.aarch64 libXdamage-devel.aarch64 libXrandr-devel.aarch64 libXtst-devel.aarch64 mesa-libgbm-devel.aarch64 alsa-lib-devel.aarch64 icu.aarch64 expat-devel.aarch64 libcurl-devel.aarch64 libuuid-devel.aarch64 ninja-build.aarch64
 sudo amazon-linux-extras enable python3.8 -y
 yum install python38
 rm $(which python3)
 ln -s $(which python3.8) /bin/python3
+
+# Build lld:
+cd /root
+git clone https://github.com/llvm/llvm-project llvm-project
+mkdir lld-build
+cd lld-build
+cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS=lld -DLLVM_TARGETS_TO_BUILD=AArch64 -G Ninja -DCMAKE_INSTALL_PREFIX=/usr/local ../llvm-project/llvm
+cmake --build .
+cmake --build . --target install
+
+# Install Depot Tools
 export DEPOT_TOOLS_BOOTSTRAP_PYTHON3=0
 cd /root
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
@@ -273,14 +284,6 @@ cd cmake-3.23.0
 make -j$(nproc)
 make install
 export PATH="$PATH:/usr/local/bin"
-
-# Build lld:
-cd /root
-git clone https://github.com/llvm/llvm-project llvm-project
-mkdir lld-build
-cd lld-build
-cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS=lld -DCMAKE_INSTALL_PREFIX=/usr/local ../llvm-project/llvm
-
 
 cd /root
 git clone https://github.com/ninja-build/ninja.git -b v1.8.2
