@@ -334,5 +334,5 @@ strip -o /root/build/chromium/libvulkan.so.1 out/Headless/libvulkan.so.1
 cd /root/build/chromium
 
 zip -r chromium.zip .
-cp -r /home/ec2-user/ .
+cp chromium.zip /home/ec2-user/chromium.zip
 ```
