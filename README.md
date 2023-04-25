@@ -324,8 +324,6 @@ gn gen out/Headless
 autoninja -C out/Headless headless_shell
 
 mkdir -p /root/build/chromium/swiftshader
-mkdir -p /root/build/chromium/lib
-mkdir -p /root/build/chromium/fonts
 
 strip -o /root/build/chromium/chromium out/Headless/headless_shell
 strip -o /root/build/chromium/libEGL.so out/Headless/libEGL.so
