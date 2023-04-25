@@ -162,7 +162,6 @@ cd /root/chromium/src
 
 - Add " 'condition': 'host_os == "win"', to DEPS file in reclient section" to fix missing binary for aarch64
 gclient sync -D --no-history --shallow --force --reset
-gclient runhooks
 
 cd /root/chromium/src
 sed -i 's@update_unix "darwin-x64" "mac"@# update_unix "darwin-x64" "mac"@g' third_party/node/update_node_binaries
