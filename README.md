@@ -274,6 +274,14 @@ make -j$(nproc)
 make install
 export PATH="$PATH:/usr/local/bin"
 
+# Build lld:
+cd /root
+git clone https://github.com/llvm/llvm-project llvm-project
+mkdir lld-build
+cd lld-build
+cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS=lld -DCMAKE_INSTALL_PREFIX=/usr/local ../llvm-project/llvm
+
+
 cd /root
 git clone https://github.com/ninja-build/ninja.git -b v1.8.2
 cd ninja
