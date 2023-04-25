@@ -135,6 +135,7 @@ clang version 11.1.0 (Amazon Linux 2 11.1.0-1.amzn2.0.2)
 
 ## Attempting with ami-09ca4fd95e59ee59a (Amazon Linux 2023)
 
+```
 sudo -i
 yum install python git make clang openssl-devel.aarch64 libxml2-devel.aarch64 lld libdrm-devel.aarch64 libxkbcommon-devel.aarch64 nss-devel.aarch64 perl gperf.aarch64 "@Development Tools" libXcomposite-devel.aarch64 libXdamage-devel.aarch64 libXrandr-devel.aarch64 libXtst-devel.aarch64 mesa-libgbm-devel.aarch64 alsa-lib-devel.aarch64 icu.aarch64
 export DEPOT_TOOLS_BOOTSTRAP_PYTHON3=0
@@ -215,4 +216,4 @@ done
 
 zip -r chromium.zip .
 cp -r /home/ec2-user/ .
-
+```
