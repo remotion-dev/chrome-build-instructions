@@ -85,7 +85,7 @@ Compatible with Amazon Linux 2 (ARM64)
     - Delete "      '-DLLVM_ENABLE_LLD=ON'," from same script
     - Change ./tools/clang/scripts/build.py and remove   "if args.with_ml_inliner_model" block:
     - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/lib64
-    - 
+    - sed -i "s/'DLLVM_DEFAULT_TARGET_TRIPLE=aarch64-unknown-linux-gnu')/'DLLVM_DEFAULT_TARGET_TRIPLE=aarch64-amazon-linux')/g" ./tools/clang/scripts/build.py # Fix triple
     - ./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++ --bootstrap
 
 - Create build dir
