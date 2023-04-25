@@ -137,7 +137,7 @@ clang version 11.1.0 (Amazon Linux 2 11.1.0-1.amzn2.0.2)
 
 ```
 sudo -i
-yum install python git make clang openssl-devel.aarch64 libxml2-devel.aarch64 lld libdrm-devel.aarch64 libxkbcommon-devel.aarch64 nss-devel.aarch64 perl gperf.aarch64 "@Development Tools" libXcomposite-devel.aarch64 libXdamage-devel.aarch64 libXrandr-devel.aarch64 libXtst-devel.aarch64 mesa-libgbm-devel.aarch64 alsa-lib-devel.aarch64 icu.aarch64
+yum install python git make clang openssl-devel.aarch64 libxml2-devel.aarch64 lld libdrm-devel.aarch64 libxkbcommon-devel.aarch64 nss-devel.aarch64 perl gperf.aarch64 libXcomposite-devel.aarch64 libXdamage-devel.aarch64 libXrandr-devel.aarch64 libXtst-devel.aarch64 mesa-libgbm-devel.aarch64 alsa-lib-devel.aarch64 icu.aarch64
 export DEPOT_TOOLS_BOOTSTRAP_PYTHON3=0
 cd /root
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
@@ -186,11 +186,18 @@ cd ninja
 rm -f /root/depot_tools/ninja
 ln -s /root/ninja/ninja /root/depot_tools/ninja
 
+cd /root
+git clone https://github.com/facebook/zstd.git
+cd zstd
+make
+make install
+
 cd /root/chromium/src
 sed -i "s#dirs.lib_dir, 'libxml2.a'#os.path.join(dirs.install_dir, 'lib64'), 'libxml2.a'#g" tools/clang/scripts/build.py
 sed -i "s/ldflags = \[\]/ldflags = ['-lrt -lpthread']/" tools/clang/scripts/build.py
 ./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++ --with-ml-inliner-model=''
 
+yum install "@Development Tools"
 
 mkdir -p /root/chromium/src/out/Headless
 mount --types tmpfs --options size=48G,nr_inodes=128k,mode=1777 tmpfs /root/chromium/src/out/Headless
