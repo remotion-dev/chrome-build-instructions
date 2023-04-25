@@ -142,6 +142,8 @@ export DEPOT_TOOLS_BOOTSTRAP_PYTHON3=0
 cd /root
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
 export PATH="$PATH:${HOME}/depot_tools"
+
+mkdir /root/chromium && cd /root/chromium
 git clone --depth 1 --no-tags -n https://github.com/chromium/chromium.git src
 cd src
 git fetch --prune --depth=1 --no-tags origin e74af94da1b9a7bbe6f0aea365b8c9b2c5e1f429 # 114.0.5731.1
