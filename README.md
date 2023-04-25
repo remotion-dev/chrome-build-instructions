@@ -191,6 +191,17 @@ ln -s /root/ninja/ninja /root/depot_tools/ninja
 cd /root/chromium/src
 sed -i "s#dirs.lib_dir, 'libxml2.a'#os.path.join(dirs.install_dir, 'lib64'), 'libxml2.a'#g" tools/clang/scripts/build.py
 sed -i "s/ldflags = \[\]/ldflags = ['-lrt -lpthread']/" tools/clang/scripts/build.py
+
+In Linux section, add:
+
+runtimes_triples_args.append((
+        'aarch64-amazon-linux',
+        compiler_rt_cmake_flags(sanitizers=True, profile=True) + [
+            'CMAKE_SYSROOT=%s' % sysroot_arm64,
+            # Can't run tests on x86 host.
+            'LLVM_INCLUDE_TESTS=OFF',
+        ]))
+
 # Bootstrap is needed because llvm-nm binary is for amd64
 ./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++ --with-ml-inliner-model='' --bootstrap
 
