@@ -208,22 +208,17 @@ ln -s /usr/lib/gcc/aarch64-amazon-linux/11/crtendS.o /usr/lib/crtendS.o
 gn gen out/Headless
 autoninja -C out/Headless headless_shell
 
-yum install "@Development Tools" #?
-
 mkdir -p /root/build/chromium/swiftshader
 mkdir -p /root/build/chromium/lib
 mkdir -p /root/build/chromium/fonts
 
 strip -o /root/build/chromium/chromium out/Headless/headless_shell
+strip -o /root/build/chromium/libEGL.so out/Headless/libEGL.so
+strip -o /root/build/chromium/libGLESv2.so out/Headless/libGLESv2.so
+strip -o /root/build/chromium/libvk_swiftshader.so out/Headless/libvk_swiftshader.so
+strip -o /root/build/chromium/libvulkan.so.1 out/Headless/libvulkan.so.1
 
-SRC_DIR="out/Headless"
-DEST_DIR="/root/build/chromium"
-
-for src_file in "${SRC_DIR}"/*.so; do
-  file_name=$(basename "${src_file}")
-  dest_file="${DEST_DIR}/${file_name}"
-  strip -o "${dest_file}" "${src_file}"
-done
+cd /root/build/chromium
 
 zip -r chromium.zip .
 cp -r /home/ec2-user/ .
