@@ -323,7 +323,7 @@ echo '#define F_SEAL_WRITE    0x0008' >> /usr/include/fcntl.h
 gn gen out/Headless
 autoninja -C out/Headless headless_shell
 
-mkdir -p /root/build/chromium/swiftshader
+mkdir -p /root/build/chromium
 
 strip -o /root/build/chromium/chromium out/Headless/headless_shell
 strip -o /root/build/chromium/libEGL.so out/Headless/libEGL.so
