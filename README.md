@@ -138,7 +138,7 @@ clang version 11.1.0 (Amazon Linux 2 11.1.0-1.amzn2.0.2)
 
 ```
 sudo -i
-yum install python git make clang openssl-devel.aarch64 libxml2-devel.aarch64 lld libdrm-devel.aarch64 libxkbcommon-devel.aarch64 nss-devel.aarch64 perl gperf.aarch64 libXcomposite-devel.aarch64 libXdamage-devel.aarch64 libXrandr-devel.aarch64 libXtst-devel.aarch64 mesa-libgbm-devel.aarch64 alsa-lib-devel.aarch64 icu.aarch64 expat-devel.aarch64 libcurl-devel.aarch64 uuid-devel.aarch64
+yum install python git make clang openssl-devel.aarch64 libxml2-devel.aarch64 lld libdrm-devel.aarch64 libxkbcommon-devel.aarch64 nss-devel.aarch64 perl gperf.aarch64 libXcomposite-devel.aarch64 libXdamage-devel.aarch64 libXrandr-devel.aarch64 libXtst-devel.aarch64 mesa-libgbm-devel.aarch64 alsa-lib-devel.aarch64 icu.aarch64 expat-devel.aarch64 libcurl-devel.aarch64 libuuid-devel.aarch64
 export DEPOT_TOOLS_BOOTSTRAP_PYTHON3=0
 cd /root
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
