@@ -200,6 +200,9 @@ nano out/Headless/args.gn # Add from flags
 sed -i 's/configs += \[ "\/\/build\/config\/linux\/dri" \]/    configs += []/g' content/gpu/BUILD.gn
 sed -i 's/configs += \[ "\/\/build\/config\/linux\/dri" \]/    configs += []/g' media/gpu/sandbox/BUILD.gn
 export LIBRARY_PATH="/usr/lib/gcc/aarch64-amazon-linux/11:$LIBRARY_PATH" #?
+ln -s /usr/lib/gcc/aarch64-amazon-linux/11/crtbeginS.o /usr/lib/crtbeginS.o
+ln -s /usr/lib/gcc/aarch64-amazon-linux/11/crtendS.o /usr/lib/crtendS.o
+
 gn gen out/Headless
 autoninja -C out/Headless headless_shell
 
