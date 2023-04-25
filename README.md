@@ -161,6 +161,7 @@ cd /root/chromium/src
 
 - Add " 'condition': 'host_os == "win"', to DEPS file in reclient section" to fix missing binary for aarch64
 gclient sync -D --no-history --shallow --force --reset
+gclient runhooks
 
 cd /root/chromium/src
 sed -i 's@update_unix "darwin-x64" "mac"@# update_unix "darwin-x64" "mac"@g' third_party/node/update_node_binaries
@@ -186,28 +187,23 @@ cd ninja
 rm -f /root/depot_tools/ninja
 ln -s /root/ninja/ninja /root/depot_tools/ninja
 
-cd /root
-git clone https://github.com/facebook/zstd.git
-cd zstd
-make
-make install
-
 cd /root/chromium/src
 sed -i "s#dirs.lib_dir, 'libxml2.a'#os.path.join(dirs.install_dir, 'lib64'), 'libxml2.a'#g" tools/clang/scripts/build.py
 sed -i "s/ldflags = \[\]/ldflags = ['-lrt -lpthread']/" tools/clang/scripts/build.py
 ./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++ --with-ml-inliner-model=''
 
-yum install "@Development Tools"
-
 mkdir -p /root/chromium/src/out/Headless
-mount --types tmpfs --options size=48G,nr_inodes=128k,mode=1777 tmpfs /root/chromium/src/out/Headless
+mount --types tmpfs --options size=60G,nr_inodes=128k,mode=1777 tmpfs /root/chromium/src/out/Headless
 touch /root/chromium/src/out/Headless/args.gn
 nano out/Headless/args.gn # Add from flags
 - Add `use_qt = false` to args.gn as well
 sed -i 's/configs += \[ "\/\/build\/config\/linux\/dri" \]/    configs += []/g' content/gpu/BUILD.gn
 sed -i 's/configs += \[ "\/\/build\/config\/linux\/dri" \]/    configs += []/g' media/gpu/sandbox/BUILD.gn
-export LIBRARY_PATH="/usr/lib/gcc/aarch64-amazon-linux/11:$LIBRARY_PATH"
+export LIBRARY_PATH="/usr/lib/gcc/aarch64-amazon-linux/11:$LIBRARY_PATH" #?
+gn gen out/Headless
 autoninja -C out/Headless headless_shell
+
+yum install "@Development Tools" #?
 
 mkdir -p /root/build/chromium/swiftshader
 mkdir -p /root/build/chromium/lib
