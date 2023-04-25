@@ -296,8 +296,6 @@ cd /root/chromium/src
 sed -i "s#dirs.lib_dir, 'libxml2.a'#os.path.join(dirs.install_dir, 'lib64'), 'libxml2.a'#g" tools/clang/scripts/build.py
 sed -i "s/ldflags = \[\]/ldflags = ['-lrt -lpthread']/" tools/clang/scripts/build.py
 sed -i "s/bootstrap_targets = 'X86'/bootstrap_targets = 'ARM;AArch64'/g" ./tools/clang/scripts/build.py
-Delete " '-DLLVM_ENABLE_LLD=ON'," from same script
-sed -i "s/'-DLLVM_ENABLE_LLD=ON',/ /g"
 # Bootstrap is needed because llvm-nm binary is for amd64
 ./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++ --with-ml-inliner-model='' --bootstrap
 
