@@ -309,6 +309,17 @@ nano out/Headless/args.gn # Add from flags
 sed -i 's/configs += \[ "\/\/build\/config\/linux\/dri" \]/    configs += []/g' content/gpu/BUILD.gn
 sed -i 's/configs += \[ "\/\/build\/config\/linux\/dri" \]/    configs += []/g' media/gpu/sandbox/BUILD.gn
 
+echo '#ifndef F_LINUX_SPECIFIC_BASE' >> /usr/include/fcntl.h
+echo '#define F_LINUX_SPECIFIC_BASE 1024' >> /usr/include/fcntl.h
+echo '#endif' >> /usr/include/fcntl.h
+echo '#define F_ADD_SEALS     (F_LINUX_SPECIFIC_BASE + 9)' >> /usr/include/fcntl.h
+echo '#define F_GET_SEALS     (F_LINUX_SPECIFIC_BASE + 10)' >> /usr/include/fcntl.h
+
+echo '#define F_SEAL_SEAL     0x0001' >> /usr/include/fcntl.h
+echo '#define F_SEAL_SHRINK   0x0002' >> /usr/include/fcntl.h
+echo '#define F_SEAL_GROW     0x0004' >> /usr/include/fcntl.h
+echo '#define F_SEAL_WRITE    0x0008' >> /usr/include/fcntl.h
+
 gn gen out/Headless
 autoninja -C out/Headless headless_shell
 
