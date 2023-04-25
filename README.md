@@ -230,6 +230,7 @@ cp -r /home/ec2-user/ .
 sudo -i
 yum install python git make clang openssl-devel.aarch64 libxml2-devel.aarch64 lld libdrm-devel.aarch64 libxkbcommon-devel.aarch64 nss-devel.aarch64 perl gperf.aarch64 libXcomposite-devel.aarch64 libXdamage-devel.aarch64 libXrandr-devel.aarch64 libXtst-devel.aarch64 mesa-libgbm-devel.aarch64 alsa-lib-devel.aarch64 icu.aarch64 expat-devel.aarch64 libcurl-devel.aarch64 libuuid-devel.aarch64
 sudo amazon-linux-extras enable python3.8 -y
+yum install python38
 rm $(which python3)
 ln -s $(which python3.8) /bin/python3
 export DEPOT_TOOLS_BOOTSTRAP_PYTHON3=0
