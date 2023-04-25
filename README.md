@@ -85,7 +85,8 @@ Compatible with Amazon Linux 2 (ARM64)
     - Delete "      '-DLLVM_ENABLE_LLD=ON'," from same script
     - Change ./tools/clang/scripts/build.py and remove   "if args.with_ml_inliner_model" block:
     - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/lib64
-    - ./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++
+    - 
+    - ./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++ --bootstrap
 
 - Create build dir
     - mkdir -p /root/chromium/src/out/Headless
@@ -190,7 +191,8 @@ ln -s /root/ninja/ninja /root/depot_tools/ninja
 cd /root/chromium/src
 sed -i "s#dirs.lib_dir, 'libxml2.a'#os.path.join(dirs.install_dir, 'lib64'), 'libxml2.a'#g" tools/clang/scripts/build.py
 sed -i "s/ldflags = \[\]/ldflags = ['-lrt -lpthread']/" tools/clang/scripts/build.py
-./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++ --with-ml-inliner-model=''
+# Bootstrap is needed because llvm-nm binary is for amd64
+./tools/clang/scripts/build.py --without-android --without-fuchsia --use-system-cmake --host-cc /bin/clang --host-cxx /bin/clang++ --with-ml-inliner-model='' --bootstrap
 
 mkdir -p /root/chromium/src/out/Headless
 mount --types tmpfs --options size=60G,nr_inodes=128k,mode=1777 tmpfs /root/chromium/src/out/Headless
