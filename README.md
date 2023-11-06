@@ -1,7 +1,8 @@
 # chrome-build-instructions
 
-Instructions for building Chromium (104) 
-Compatible with Amazon Linux 2 (ARM64)
+Instructions for building Chromium (114).  
+Compatible with Amazon Linux 2 (ARM64).  
+Not actively maintained.  
 
 - Spin up an AWS EC2 machine
     - AmiID: ami-0abe92d15a280b758 in eu-west-1
