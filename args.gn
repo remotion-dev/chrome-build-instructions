@@ -24,9 +24,9 @@ use_pulseaudio = false
 v8_target_cpu = "arm64"
 
 chrome_pgo_phase = 0
-
 enable_background_mode = false
 enable_captive_portal_detection = false
 enable_chrome_notifications = false
 
 use_sysroot = false
+use_qt = false
